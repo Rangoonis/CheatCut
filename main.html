@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CheatCut</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chaucer&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap" rel="stylesheet"> <!-- Added Comic Sans -->
+    <!-- Favicon (Tab Image) -->
+    <link rel="icon" href="logo.png" type="image/png">
+</head>
+<body>
+    <div class="background-image">
+        <div class="container">
+            <!-- Raccoon Image -->
+            <div class="raccoon">
+                <img src="raccon.png" alt="Raccoon Waving">
+            </div>
+
+            <!-- Left side with an image -->
+            <div class="phones">
+                <img src="phone.png" alt="Phones Image">
+            </div>
+
+            <!-- Right side with options to select method -->
+            <div class="login-box">
+                <!-- CheatCut Title -->
+                <div class="site-title">
+                    <h1>CheatCut</h1>
+                </div>
+
+                <!-- Custom logo (your image) -->
+                <div class="custom-logo">
+                    <img src="start.png" alt="Shortcut Logo">
+                </div>
+
+                <!-- Menu options -->
+                <div class="menu-options">
+                    <button onclick="redirectTo('elm.html')">Gauss Elimination</button>
+                    <button onclick="redirectTo('sedial.html')">Gauss-Seidel</button>
+                    <button onclick="redirectTo('max.html')">Maximization</button>
+                </div>
+
+                <!-- Background color changer -->
+                <div class="color-selector">
+                    <label for="bg-color">Change Background Color:</label>
+                    <select id="bg-color" onchange="changeBackgroundColor()">
+                        <option value="white">White</option>
+                        <option value="black">Black</option>
+                        <option value="grey">Grey</option>
+                        <option value="purple">Purple</option>
+                        <option value="pink">Pink</option>
+                        <option value="brown">Brown</option>
+                        <option value="cyan">Cyan</option>
+                    </select>
+                </div>
+
+                <!-- Font changer -->
+                <div class="font-selector">
+                    <label for="font-selector">Change Font:</label>
+                    <select id="font-selector" onchange="changeFont()">
+                        <option value="'Chaucer', serif">Chaucer</option>
+                        <option value="'Comic Sans MS', cursive">Comic Sans</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Chaucer', serif; /* Default font */
+    background-image: url('backgroud.jpg'); /* Add your background image */
+    background-size: cover; /* Cover the entire body */
+    background-position: center; /* Center the image */
+}
+
+/* Background Image with border */
+.background-image {
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    display: flex; /* Flexbox to align content */
+    justify-content: center; /* Center the content */
+    align-items: center; /* Center the content */
+    border: 2px solid black; /* Add a border around the background image */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 900px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* White background with transparency */
+    border: 2px solid black; /* Add a black border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding around the content */
+}
+
+.raccoon {
+    margin-right: 30px; /* Space between the raccoon and phones */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.raccoon img {
+    width: 100px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    border: 2px solid black; /* Add border to the raccoon image */
+}
+
+.phones {
+    flex: 1;
+    text-align: right;
+    margin-right: 30px;
+}
+
+.phones img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border: 2px solid black; /* Add border to the phones image */
+}
+
+.login-box {
+    flex: 1;
+    max-width: 350px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.custom-logo img {
+    width: 120px;
+    margin: 0 auto 20px;
+    border: 2px solid black; /* Add a border to the custom logo */
+    border-radius: 5px; /* Optional: round the corners slightly */
+}
+
+.menu-options button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #0095f6;
+    color: white;
+    border: 2px solid black; /* Add a black border */
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.menu-options button:hover {
+    background-color: #007bb5;
+}
+
+.color-selector, .font-selector {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.color-selector label, .font-selector label {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.color-selector select, .font-selector select {
+    padding: 5px;
+    font-size: 14px;
+}
+</style>
+
+<script>
+function redirectTo(page) {
+    window.location.href = page; // Redirect to the specified page
+}
+
+function changeBackgroundColor() {
+    const selectedColor = document.getElementById('bg-color').value;
+    document.body.style.backgroundColor = selectedColor; // Change the background color
+}
+
+function changeFont() {
+    const selectedFont = document.getElementById('font-selector').value;
+    document.body.style.fontFamily = selectedFont; // Change the font of the entire page
+}
+</script>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gauss-Seidel Solver SideCut</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        /* Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Chaucer&display=swap');
+        
+        /* Spotify-like Theme */
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Chaucer', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1, h3, p {
+            text-align: center;
+        }
+
+        #equationForm {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+            width: 80%;
+            max-width: 600px;
+            margin-top: 60px; /* To accommodate space for the Home button */
+        }
+
+        input {
+            background-color: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 10px;
+            width: 20%;
+            margin: 5px 0;
+        }
+
+        button {
+            background-color: #1db954;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #1ed760;
+        }
+
+        table, th, td {
+            border: 1px solid #444;
+            border-collapse: collapse;
+            padding: 10px;
+            text-align: center;
+            margin: 20px auto;
+            background-color: #333;
+            color: white;
+        }
+
+        select {
+            background-color: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .font-selector {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .font-selector label {
+            margin-right: 10px;
+        }
+
+        /* Home Button Styling */
+        #home-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        #home-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        #home-button:hover {
+            background-color: #1db954;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Home Button with Icon -->
+<button id="home-button" onclick="window.location.href='main.html'">
+    <img id="home-icon" src="https://img.icons8.com/ios-filled/50/ffffff/home.png" alt="Home">
+</button>
+
+<h1>Gauss-Seidel Solver</h1>
+
+<form id="equationForm">
+    <h3>Enter the coefficients and constants for 3 equations:</h3>
+    <p>Equation 1: a1x + b1y + c1z = d1</p>
+    <input type="number" step="any" id="a1" placeholder="a1" required>
+    <input type="number" step="any" id="b1" placeholder="b1" required>
+    <input type="number" step="any" id="c1" placeholder="c1" required>
+    <input type="number" step="any" id="d1" placeholder="d1" required>
+    <br><br>
+
+    <p>Equation 2: a2x + b2y + c2z = d2</p>
+    <input type="number" step="any" id="a2" placeholder="a2" required>
+    <input type="number" step="any" id="b2" placeholder="b2" required>
+    <input type="number" step="any" id="c2" placeholder="c2" required>
+    <input type="number" step="any" id="d2" placeholder="d2" required>
+    <br><br>
+
+    <p>Equation 3: a3x + b3y + c3z = d3</p>
+    <input type="number" step="any" id="a3" placeholder="a3" required>
+    <input type="number" step="any" id="b3" placeholder="b3" required>
+    <input type="number" step="any" id="c3" placeholder="c3" required>
+    <input type="number" step="any" id="d3" placeholder="d3" required>
+    <br><br>
+
+    <button type="button" onclick="solveGaussSeidel()">Solve</button>
+
+    <!-- Font Selector -->
+    <div class="font-selector">
+        <label for="font-select">Choose Font:</label>
+        <select id="font-select" onchange="changeFont()">
+            <option value="Chaucer">Chaucer</option>
+            <option value="ComicSansMS">Comic Sans MS</option>
+        </select>
+    </div>
+</form>
+
+<div id="result"></div>
+
+<script>
+// Function to change the font style
+function changeFont() {
+    const fontSelect = document.getElementById('font-select').value;
+    if (fontSelect === 'Chaucer') {
+        document.body.style.fontFamily = "'Chaucer', serif";
+    } else if (fontSelect === 'ComicSansMS') {
+        document.body.style.fontFamily = "'Comic Sans MS', cursive";
+    }
+}
+
+// Function to solve the system using Gauss-Seidel method
+function solveGaussSeidel() {
+    // Retrieve user input
+    let a1 = parseFloat(document.getElementById("a1").value);
+    let b1 = parseFloat(document.getElementById("b1").value);
+    let c1 = parseFloat(document.getElementById("c1").value);
+    let d1 = parseFloat(document.getElementById("d1").value);
+    
+    let a2 = parseFloat(document.getElementById("a2").value);
+    let b2 = parseFloat(document.getElementById("b2").value);
+    let c2 = parseFloat(document.getElementById("c2").value);
+    let d2 = parseFloat(document.getElementById("d2").value);
+    
+    let a3 = parseFloat(document.getElementById("a3").value);
+    let b3 = parseFloat(document.getElementById("b3").value);
+    let c3 = parseFloat(document.getElementById("c3").value);
+    let d3 = parseFloat(document.getElementById("d3").value);
+
+    // Matrix representation
+    let A = [
+        [a1, b1, c1],
+        [a2, b2, c2],
+        [a3, b3, c3]
+    ];
+
+    let B = [d1, d2, d3];
+
+    // Display the initial system of equations
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "<h3>Initial System of Equations:</h3>";
+    resultDiv.innerHTML += displaySystem(A, B);
+
+    // Check if diagonal dominance exists
+    if (!isDiagonallyDominant(A)) {
+        resultDiv.innerHTML += "<p>The system is not diagonally dominant. Attempting to make it diagonally dominant...</p>";
+        let steps = [];
+        if (!makeDiagonallyDominant(A, B, steps)) {
+            resultDiv.innerHTML += "<p>Unable to make the system diagonally dominant. Convergence is not guaranteed.</p>";
+        } else {
+            resultDiv.innerHTML += "<h3>Steps to make the system diagonally dominant:</h3>";
+            steps.forEach(step => {
+                resultDiv.innerHTML += `<p>${step}</p>`;
+            });
+            resultDiv.innerHTML += "<h3>Diagonally Dominant System:</h3>";
+            resultDiv.innerHTML += displaySystem(A, B);
+        }
+    } else {
+        resultDiv.innerHTML += "<p>The system is already diagonally dominant.</p>";
+    }
+
+    // Initialize guesses
+    let x = 0, y = 0, z = 0;
+    let prevX, prevY, prevZ;
+    let iterations = 100;  // Maximum number of iterations for better convergence
+    let tolerance = 0.0001;  // Tolerance level for stopping condition
+
+    // Table to display results
+    let table = "<table><tr><th>Iteration</th><th>x</th><th>y</th><th>z</th></tr>";
+
+    for (let i = 1; i <= iterations; i++) {
+        prevX = x;
+        prevY = y;
+        prevZ = z;
+
+        x = (B[0] - A[0][1] * y - A[0][2] * z) / A[0][0];
+        y = (B[1] - A[1][0] * x - A[1][2] * z) / A[1][1];
+        z = (B[2] - A[2][0] * x - A[2][1] * y) / A[2][2];
+
+        table += `<tr><td>${i}</td><td>${x.toFixed(4)}</td><td>${y.toFixed(4)}</td><td>${z.toFixed(4)}</td></tr>`;
+
+        // Check for convergence
+        if (Math.abs(x - prevX) < tolerance && Math.abs(y - prevY) < tolerance && Math.abs(z - prevZ) < tolerance) {
+            resultDiv.innerHTML += `<p>Converged in ${i} iterations with tolerance ${tolerance}.</p>`;
+            break;
+        }
+
+        // If not converged within the limit, display a message
+        if (i === iterations) {
+            resultDiv.innerHTML += `<p>Did not converge within ${iterations} iterations. Results may be approximate.</p>`;
+        }
+    }
+
+    table += "</table>";
+    resultDiv.innerHTML += "<h3>Gauss-Seidel Iteration Table:</h3>" + table;
+
+    // Add the "Solve Next" button for refreshing the page
+    resultDiv.innerHTML += `<button onclick="location.reload()">Solve Next</button>`;
+}
+
+// Function to display the system of equations
+function displaySystem(A, B) {
+    return `<p>${A[0][0]}x + ${A[0][1]}y + ${A[0][2]}z = ${B[0]}</p>
+            <p>${A[1][0]}x + ${A[1][1]}y + ${A[1][2]}z = ${B[1]}</p>
+            <p>${A[2][0]}x + ${A[2][1]}y + ${A[2][2]}z = ${B[2]}</p>`;
+}
+
+// Function to check if the system is diagonally dominant
+function isDiagonallyDominant(A) {
+    for (let i = 0; i < A.length; i++) {
+        let sum = 0;
+        for (let j = 0; j < A[i].length; j++) {
+            if (i !== j) {
+                sum += Math.abs(A[i][j]);
+            }
+        }
+        if (Math.abs(A[i][i]) <= sum) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Function to make the system diagonally dominant if possible
+function makeDiagonallyDominant(A, B, steps) {
+    let size = A.length;
+    for (let i = 0; i < size; i++) {
+        let maxRow = i;
+        let maxValue = Math.abs(A[i][i]);
+        for (let j = i + 1; j < size; j++) {
+            if (Math.abs(A[j][i]) > maxValue) {
+                maxValue = Math.abs(A[j][i]);
+                maxRow = j;
+            }
+        }
+
+        if (maxRow !== i) {
+            // Swap rows in A and B
+            [A[i], A[maxRow]] = [A[maxRow], A[i]];
+            [B[i], B[maxRow]] = [B[maxRow], B[i]];
+            steps.push(`Swapped row ${i + 1} with row ${maxRow + 1}`);
+        }
+    }
+
+    // Check again if the system is now diagonally dominant
+    return isDiagonallyDominant(A);
+}
+</script>
+
+</body>
+</html>

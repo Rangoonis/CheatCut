@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Chaucer', serif; /* Changed to Chaucer font */
+    background-image: url('backgroud.jpg'); /* Add your background image */
+    background-size: cover; /* Cover the entire body */
+    background-position: center; /* Center the image */
+}
+
+.background-image {
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    display: flex; /* Flexbox to align content */
+    justify-content: center; /* Center the content */
+    align-items: center; /* Center the content */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 900px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* White background with transparency */
+    border: 1px solid #dbdbdb; /* Border around the container */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding around the content */
+}
+
+.raccoon {
+    margin-right: 30px; /* Space between the raccoon and phones */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.raccoon img {
+    width: 100px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.phones {
+    flex: 1;
+    text-align: right;
+    margin-right: 30px;
+}
+
+.phones img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+}
+
+.login-box {
+    flex: 1;
+    max-width: 350px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.custom-logo img {
+    width: 120px;
+    margin: 0 auto 20px;
+}
+
+.menu-options button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.menu-options button:hover {
+    background-color: #007bb5;
+}
+
+.color-selector {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.color-selector label {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.color-selector select {
+    padding: 5px;
+    font-size: 14px;
+}
